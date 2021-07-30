@@ -23,6 +23,14 @@
   </head>
   <body>
     <h1>Readability API</h1>
+    <h2>What does this do?</h2>
+    <p>
+      This API takes in a URL. The source code of that page is then processed to
+      give you plain text and HTML.
+    </p>
+    <p>Examples are shown later.</p>
+    <br />
+    <h2>Usage</h2>
     <p>Perform GET request to:</p>
     <code> https://serverless-learn.netlify.app/.netlify/functions/main</code>
     <h2>Available Query Parameters</h2>
@@ -52,7 +60,7 @@
       <p>
         GET
         <strong>
-          https://www.forbes.com/sites/timbajarin/2021/07/27/a-big-question-the-ftc-needs-to-answer-about-right-to-repair-policy/
+          https://serverless-learn.netlify.app/.netlify/functions/main?a=https%3A%2F%2Fwww.forbes.com%2Fsites%2Ftimbajarin%2F2021%2F07%2F27%2Fa-big-question-the-ftc-needs-to-answer-about-right-to-repair-policy%2F
         </strong>
       </p>
     </code>
@@ -74,17 +82,20 @@
       &lt;/div&gt; 
 
       &lt;script&gt; 
-      const replace = document.getElementById("replace"); 
+      const replace = document.getElementById("replace");
       const URL = "https://serverless-learn.netlify.app/.netlify/functions/main";
 
       async function sendRequest(url) {
         replace.innerText = "loading..";
         const response = await fetch(`${URL}?a=${encodeURIComponent(url)}`);
         const data = await response.json();
-        replace.innerHTML = data.html;
+        return data;
       }
-      const data = sendRequest("https://lipsum.com/");
-      console.log(data);
+      document.addEventListener("DOMContentLoaded", async () => {
+        const data = await sendRequest("https://lipsum.com/");
+        replace.innerHTML = data.html;
+      });
+
       &lt;script/&gt;
       </pre
     >
