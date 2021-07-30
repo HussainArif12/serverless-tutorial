@@ -4,22 +4,110 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jamstack Explorers - Up and Running with Serverless Functions</title>
+    <title>Readability API</title>
+    <style>
+      * {
+        text-align: center;
+      }
+      img {
+        height: 60%;
+        width: 60%;
+      }
+      #replace {
+        border-style: dotted;
+      }
+      pre {
+        text-align: left;
+      }
+    </style>
   </head>
   <body>
-    <h1>Up and Running with Serverless Functions</h1>
-    <button id="fetch-btn">Fetch</button>
-    <p id="response-output">Response Placeholder</p>
+    <h1>Readability API</h1>
+    <p>Perform GET request to:</p>
+    <code> https://serverless-learn.netlify.app/.netlify/functions/main</code>
+    <h2>Available Query Parameters</h2>
+    <code>
+      <h3>a</h3>
+      <p>This will be your <strong>URI encoded URL</strong></p></code
+    >
+    <p>
+      To learn more about URI encoded strings,
+      <a
+        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"
+        >click here.
+      </a>
+    </p>
+    <br />
+    <h2>Examples:</h2>
+    <code>
+      <p>
+        GET
+        <strong>
+          https://serverless-learn.netlify.app/.netlify/functions/main?a=https%3A%2F%2Fwww.dw.com%2Fde%2Fbiden-dr%25C3%25A4ngt-die-amerikaner-zur-corona-spritze%2Fa-58699631
+        </strong>
+      </p>
+    </code>
+    <img src="./results.png" />
+    <code>
+      <p>
+        GET
+        <strong>
+          https://www.forbes.com/sites/timbajarin/2021/07/27/a-big-question-the-ftc-needs-to-answer-about-right-to-repair-policy/
+        </strong>
+      </p>
+    </code>
+    <img src="results2.png" />
+    <br />
+    <h2>See it in action</h2>
+    <form id="form">
+      <input type="text" id="url" placeholder="url" />
+      <input type="submit" value="Submit" />
+    </form>
+    <div id="replace">
+      Text goes here. If you have entered something. Please wait.
+    </div>
+    <br />
+    <h2>Code sample:</h2>
+    <pre>
+      &lt;div id="replace"&gt; 
+      Text goes here. If you have entered something. Please wait. 
+      &lt;/div&gt; 
 
+      &lt;script&gt; 
+      const replace = document.getElementById("replace"); 
+      const URL = "https://serverless-learn.netlify.app/.netlify/functions/main";
+
+      async function sendRequest(url) {
+        replace.innerText = "loading..";
+        const response = await fetch(`${URL}?a=${encodeURIComponent(url)}`);
+        const data = await response.json();
+        replace.innerHTML = data.html;
+      }
+      const data = sendRequest("https://lipsum.com/");
+      console.log(data);
+      &lt;script/&gt;
+      </pre
+    >
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const fetchBtn = document.getElementById('fetch-btn')
-        const responseText = document.getElementById('response-output')
+      const form = document.getElementById("form");
+      const url = document.getElementById("url");
+      const replace = document.getElementById("replace");
 
-        fetchBtn.addEventListener('click', () => {
-          responseText.innerText = 'Static Text Replacement'
-        })
-      })
+      async function sendRequest(url) {
+        replace.innerText = "loading..";
+        const response = await fetch(
+          `/.netlify/functions/main?a=${encodeURIComponent(url)}`
+        );
+        const html = await response.json();
+        console.log(html.html);
+        replace.innerHTML = html.html;
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        await sendRequest(url.value);
+      });
     </script>
+    <footer>Built by Hussain</footer>
   </body>
 </html>
