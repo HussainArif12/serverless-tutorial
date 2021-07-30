@@ -5,19 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Readability API</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@geist-ui/style@latest/dist/style.css"
+    />
     <style>
-      * {
-        text-align: center;
-      }
       img {
         height: 60%;
         width: 60%;
       }
-      #replace {
-        border-style: dotted;
-      }
-      pre {
-        text-align: left;
+      * {
+        text-align: center;
       }
     </style>
   </head>
@@ -26,56 +24,76 @@
     <h2>What does this do?</h2>
     <p>
       This API takes in a URL. The source code of that page is then processed to
-      give you plain text and HTML.
+      give you plain text and HTML. This allows you to read an article without
+      trackers,ads and distractions.
     </p>
+    <p><a href="/action">Click here to see it in action </a></p>
     <p>Examples are shown later.</p>
-    <br />
     <h2>Usage</h2>
-    <p>Perform GET request to:</p>
-    <code> https://serverless-learn.netlify.app/.netlify/functions/main</code>
+    <p>Perform <code>GET</code> request to:</p>
+    <pre> https://serverless-learn.netlify.app/.netlify/functions/main</pre>
     <h2>Available Query Parameters</h2>
-    <code>
-      <h3>a</h3>
-      <p>This will be your <strong>URI encoded URL</strong></p></code
-    >
-    <p>
-      To learn more about URI encoded strings,
-      <a
-        href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"
-        >click here.
-      </a>
-    </p>
-    <br />
+    <table class="zi-table">
+      <thead>
+        <tr>
+          <th>Query</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>a</code></td>
+          <td>
+            The <strong>URI encoded URL</strong> of the site to parse. To learn
+            more about URI encoded strings,
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"
+              >click here.
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
     <h2>Examples:</h2>
-    <code>
+    <div class="zi-card">
+      <pre>
+        <p><a href="https://www.dw.com/de/biden-dr%C3%A4ngt-die-amerikaner-zur-corona-spritze/a-58699631">This Deutsche Welle Article</a></p>
       <p>
         GET
         <strong>
           https://serverless-learn.netlify.app/.netlify/functions/main?a=https%3A%2F%2Fwww.dw.com%2Fde%2Fbiden-dr%25C3%25A4ngt-die-amerikaner-zur-corona-spritze%2Fa-58699631
         </strong>
       </p>
-    </code>
-    <img src="./results.png" />
-    <code>
+    </pre>
+
+      <pre>
+        {
+          "title": "Biden drängt die Amerikaner zur Corona-Spritze | DW | 30.07.2021",
+          "html": "&lt;div class=\"page\"
+      </pre>
+    </div>
+    <div class="zi-card">
+      <pre>
+        <p> <a href="https://www.forbes.com/sites/timbajarin/2021/07/27/a-big-question-the-ftc-needs-to-answer-about-right-to-repair-policy/">This Forbes article</a></p>
       <p>
         GET
         <strong>
           https://serverless-learn.netlify.app/.netlify/functions/main?a=https%3A%2F%2Fwww.forbes.com%2Fsites%2Ftimbajarin%2F2021%2F07%2F27%2Fa-big-question-the-ftc-needs-to-answer-about-right-to-repair-policy%2F
         </strong>
       </p>
-    </code>
-    <img src="results2.png" />
-    <br />
-    <h2>See it in action</h2>
-    <form id="form">
-      <input type="text" id="url" placeholder="url" />
-      <input type="submit" value="Submit" />
-    </form>
-    <div id="replace">
-      Text goes here. If you have entered something. Please wait.
+    </pre>
+      <pre>
+        {
+          "title": "A Big Question The FTC Needs To Address About Right-To-Repair Policy",
+          "html": "&lt;div class=\"page\.."
+        }
+      </pre>
     </div>
-    <br />
-    <h2>Code sample:</h2>
+    <h2>API in action</h2>
+    <a href="action.html">To see it in action,click here</a>
+    <h2>Code samples</h2>
+    <h3>For JS(Vanilla)</h3>
     <pre>
       &lt;div id="replace"&gt; 
       Text goes here. If you have entered something. Please wait. 
@@ -91,6 +109,7 @@
         const data = await response.json();
         return data;
       }
+      //when the website is fully loaded, run the function
       document.addEventListener("DOMContentLoaded", async () => {
         const data = await sendRequest("https://lipsum.com/");
         replace.innerHTML = data.html;
@@ -99,26 +118,34 @@
       &lt;script/&gt;
       </pre
     >
-    <script>
-      const form = document.getElementById("form");
-      const url = document.getElementById("url");
-      const replace = document.getElementById("replace");
-
-      async function sendRequest(url) {
-        replace.innerText = "loading..";
-        const response = await fetch(
-          `/.netlify/functions/main?a=${encodeURIComponent(url)}`
-        );
-        const html = await response.json();
-        console.log(html.html);
-        replace.innerHTML = html.html;
-      }
-
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        await sendRequest(url.value);
-      });
-    </script>
+    <h2>Why build this?</h2>
+    <p>
+      Many articles around the web are filled to the brim with trackers, ads and
+      popups. As a result, this bogs down my computer. Even though my HP is old,
+      it doesn't mean it's e-waste.
+    </p>
+    <p>
+      For this reason, I built this API. It uses
+      <a href="https://github.com/mozilla/readability"
+        >Mozilla's Readability API</a
+      >
+      to remove the clutter from web-pages. My app is also serverless, which
+      means that it can scale up and down when needed, thus saving energy.
+    </p>
+    <p>Therefore, a memory-hungry site like this:</p>
+    <img src="Verge.png" />
+    <p>
+      When all tracking related code and distractions are removed, looks like
+      this:
+    </p>
+    <img src="VergeAfter.png" />
+    <h2>Caveats</h2>
+    <p>
+      Sometimes, the API might take too long to respond. This is because of
+      'cold starts'. This happens when the API is inactive and needs to boot up
+      when someone uses it after a long time. After the 'cold start', the app
+      will run normally.
+    </p>
     <footer>Built by Hussain</footer>
   </body>
 </html>

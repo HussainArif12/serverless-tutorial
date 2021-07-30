@@ -15,25 +15,9 @@ async function parseURL(site) {
     return {
       title: article.title,
       html: markup,
-      //text: article.textContent,
     };
   } else {
     return { error: "The site was not readable" };
-  }
-}
-
-async function sendData(site, save) {
-  const { title, text, error } = await parseURL(site);
-
-  if (!error) {
-    console.log(chalk.blue.underline(title));
-    console.log(text);
-    if (save) {
-      saveToFile(html);
-      console.log(chalk.red("contents saved to file"));
-    }
-  } else {
-    console.log(chalk.red.bold("The site could not be read"));
   }
 }
 

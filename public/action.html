@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>Readability API</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="utf-8" http-equiv="encoding" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@geist-ui/style@latest/dist/style.css"
+    />
+    <style>
+      form {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+      }
+      #replace {
+        text-align: center;
+        margin: 0 2% 0 2%;
+      }
+      @media only screen and (max-width: 640px) {
+        #replace {
+          margin: 0 0 0 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <form id="form">
+      <input
+        class="zi-input big success"
+        type="text"
+        id="url"
+        placeholder="https://www.lipsum.com"
+      />
+      <button class="zi-btn big primary" type="submit">Submit</button>
+    </form>
+    <div id="replace">Type your URL in the bar above.</div>
+    <script>
+      const form = document.getElementById("form");
+      const url = document.getElementById("url");
+      const replace = document.getElementById("replace");
+
+      async function sendRequest(url) {
+        replace.innerText = "loading..";
+        const response = await fetch(
+          `/.netlify/functions/main?a=${encodeURIComponent(url)}`
+        );
+        let html = await response.json();
+        replace.innerHTML = `<h1>${html.title} </h1> ${html.html}`;
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        await sendRequest(url.value);
+      });
+    </script>
+  </body>
+</html>
