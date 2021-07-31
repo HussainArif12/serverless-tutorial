@@ -1,41 +1,55 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <title>Readability API</title>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
     <meta content="utf-8" http-equiv="encoding" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Reader mode for your website. Remove clutter and trackers from the desired article"
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@geist-ui/style@latest/dist/style.css"
     />
+    <link rel="icon" href="./images/maskable_icon_x128.png" />
     <style>
       form {
         display: grid;
         grid-template-columns: 2fr 1fr;
       }
       #replace {
-        text-align: center;
         margin: 0 2% 0 2%;
+      }
+      #replace > h1 {
+        text-align: center;
       }
       @media only screen and (max-width: 640px) {
         #replace {
           margin: 0 0 0 0;
         }
+        form {
+          display: flex;
+          flex-direction: column;
+        }
       }
     </style>
   </head>
   <body>
-    <form id="form">
-      <input
-        class="zi-input big success"
-        type="text"
-        id="url"
-        placeholder="https://www.lipsum.com"
-      />
-      <button class="zi-btn big primary" type="submit">Submit</button>
-    </form>
+    <main>
+      <form id="form">
+        <input
+          class="zi-input big success"
+          type="text"
+          id="url"
+          placeholder="https://www.lipsum.com"
+        />
+        <button class="zi-btn large primary" type="submit">Submit</button>
+      </form>
+    </main>
     <div id="replace">
-      Type your URL in the bar above.
+      Paste the article of your URL in the bar above.
       <p>
         <a
           href="https://github.com/HussainArif12/serverless-tutorial/blob/main/public/action.html"
@@ -54,7 +68,12 @@
           `/.netlify/functions/main?a=${encodeURIComponent(url)}`
         );
         let html = await response.json();
-        replace.innerHTML = `<h1>${html.title} </h1> ${html.html}`;
+        if (html.html && html.title) {
+          replace.innerHTML = `<h1>${html.title} </h1> ${html.html}`;
+        } else {
+          replace.innerHTML =
+            "<p class='zi-note error'><span class='zi-note-type'>ERROR:</span>Site cannot be read</p>";
+        }
       }
 
       form.addEventListener("submit", async (event) => {

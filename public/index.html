@@ -9,12 +9,17 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@geist-ui/style@latest/dist/style.css"
     />
+    <link rel="icon" href="./images/maskable_icon_x128.png" />
+    <meta
+      name="description"
+      content="Reader mode API. Remove clutter and trackers from the desired article"
+    />
     <style>
       img {
-        height: 60%;
+        height: auto;
         width: 60%;
       }
-      * {
+      h1 {
         text-align: center;
       }
     </style>
@@ -133,12 +138,16 @@
       means that it can scale up and down when needed, thus saving energy.
     </p>
     <p>Therefore, a memory-hungry site like this:</p>
-    <img src="Verge.png" />
+    <img src="./images/Verge-min.png" alt="Site with clutter" loading="lazy" />
     <p>
       When all tracking related code and distractions are removed, looks like
       this:
     </p>
-    <img src="VergeAfter.png" />
+    <img
+      src="./images/VergeAfter-min.png"
+      alt="Clutter free site"
+      loading="lazy"
+    />
     <h2>Caveats</h2>
     <p>
       Sometimes, the API might take too long to respond. This is because of
