@@ -15,9 +15,13 @@
       content="Reader mode API. Remove clutter and trackers from the desired article"
     />
     <style>
+      main {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+      }
       img {
-        height: auto;
-        width: 60%;
+        text-align: center;
       }
       h1 {
         text-align: center;
@@ -25,44 +29,48 @@
     </style>
   </head>
   <body>
+    <button class="zi-btn mini warning" onclick="changeTheme()">
+      Switch to:<span id="themeName">dark-theme</span>
+    </button>
     <h1>Readability API</h1>
-    <h2>What does this do?</h2>
-    <p>
-      This API takes in a URL. The source code of that page is then processed to
-      give you plain text and HTML. This allows you to read an article without
-      trackers,ads and distractions.
-    </p>
-    <p><a href="/action">Click here to see it in action </a></p>
-    <p>Examples are shown later.</p>
-    <h2>Usage</h2>
-    <p>Perform <code>GET</code> request to:</p>
-    <pre> https://add-readability.netlify.app/.netlify/functions/main</pre>
-    <h2>Available Query Parameters</h2>
-    <table class="zi-table">
-      <thead>
-        <tr>
-          <th>Query</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>a</code></td>
-          <td>
-            The <strong>URI encoded URL</strong> of the site to parse. To learn
-            more about URI encoded strings,
-            <a
-              href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"
-              >click here.
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <main>
+      <h2>What does this do?</h2>
+      <p>
+        This API takes in a URL. The source code of that page is then processed
+        to give you plain text and HTML. This allows you to read an article
+        without trackers,ads and distractions.
+      </p>
+      <p><a href="/action">Click here to see it in action </a></p>
+      <p>Examples are shown later.</p>
+      <h2>Usage</h2>
+      <p>Perform <code>GET</code> request to:</p>
+      <pre> https://add-readability.netlify.app/.netlify/functions/main</pre>
+      <h2>Available Query Parameters</h2>
+      <table class="zi-table">
+        <thead>
+          <tr>
+            <th>Query</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>a</code></td>
+            <td>
+              The <strong>URI encoded URL</strong> of the site to parse. To
+              learn more about URI encoded strings,
+              <a
+                href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"
+                >click here.
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <h2>Examples:</h2>
-    <div class="zi-card">
-      <pre>
+      <h2>Examples:</h2>
+      <div class="zi-card">
+        <pre>
         <p><a href="https://www.dw.com/de/biden-dr%C3%A4ngt-die-amerikaner-zur-corona-spritze/a-58699631">This Deutsche Welle Article</a></p>
       <p>
         GET
@@ -72,14 +80,15 @@
       </p>
     </pre>
 
-      <pre>
+        <pre>
         {
           "title": "Biden drängt die Amerikaner zur Corona-Spritze | DW | 30.07.2021",
           "html": "&lt;div class=\"page\"
-      </pre>
-    </div>
-    <div class="zi-card">
-      <pre>
+      </pre
+        >
+      </div>
+      <div class="zi-card">
+        <pre>
         <p> <a href="https://www.forbes.com/sites/timbajarin/2021/07/27/a-big-question-the-ftc-needs-to-answer-about-right-to-repair-policy/">This Forbes article</a></p>
       <p>
         GET
@@ -88,18 +97,19 @@
         </strong>
       </p>
     </pre>
-      <pre>
+        <pre>
         {
           "title": "A Big Question The FTC Needs To Address About Right-To-Repair Policy",
           "html": "&lt;div class=\"page\.."
         }
-      </pre>
-    </div>
-    <h2>API in action</h2>
-    <a href="action.html">To see it in action,click here</a>
-    <h2>Code samples</h2>
-    <h3>For JS(Vanilla)</h3>
-    <pre>
+      </pre
+        >
+      </div>
+      <h2>API in action</h2>
+      <a href="action.html">To see it in action,click here</a>
+      <h2>Code samples</h2>
+      <h3>For JS(Vanilla)</h3>
+      <pre>
       &lt;div id="replace"&gt; 
       Text goes here. If you have entered something. Please wait. 
       &lt;/div&gt; 
@@ -121,40 +131,61 @@
       });
 
       &lt;script/&gt;
-      </pre
-    >
-    <h2>Why build this?</h2>
-    <p>
-      Many articles around the web are filled to the brim with trackers, ads and
-      popups. As a result, this bogs down my computer. Even though my HP is old,
-      it doesn't mean it's e-waste.
-    </p>
-    <p>
-      For this reason, I built this API. It uses
-      <a href="https://github.com/mozilla/readability"
-        >Mozilla's Readability API</a
-      >
-      to remove the clutter from web-pages. My app is also serverless, which
-      means that it can scale up and down when needed, thus saving energy.
-    </p>
-    <p>Therefore, a memory-hungry site like this:</p>
-    <img src="./images/Verge-min.png" alt="Site with clutter" loading="lazy" />
-    <p>
-      When all tracking related code and distractions are removed, looks like
-      this:
-    </p>
-    <img
-      src="./images/VergeAfter-min.png"
-      alt="Clutter free site"
-      loading="lazy"
-    />
-    <h2>Caveats</h2>
-    <p>
-      Sometimes, the API might take too long to respond. This is because of
-      'cold starts'. This happens when the API is inactive and needs to boot up
-      when someone uses it after a long time. After the 'cold start', the app
-      will run normally.
-    </p>
+      </pre>
+      <h2>Why build this?</h2>
+      <p>
+        Many articles around the web are filled to the brim with trackers, ads
+        and popups. As a result, this bogs down my computer. Even though my HP
+        is old, it doesn't mean it's e-waste.
+      </p>
+      <p>
+        For this reason, I built this API. It uses
+        <a href="https://github.com/mozilla/readability"
+          >Mozilla's Readability API</a
+        >
+        to remove the clutter from web-pages. My app is also serverless, which
+        means that it can scale up and down when needed, thus saving energy.
+      </p>
+      <p>Therefore, a memory-hungry site like this:</p>
+      <img
+        src="./images/Verge-min.png"
+        alt="Site with clutter"
+        loading="lazy"
+      />
+      <p>
+        When all tracking related code and distractions are removed, looks like
+        this:
+      </p>
+      <img
+        src="./images/VergeAfter-min.png"
+        alt="Clutter free site"
+        loading="lazy"
+      />
+      <h2>Caveats</h2>
+      <p>
+        Sometimes, the API might take too long to respond. This is because of
+        'cold starts'. This happens when the API is inactive and needs to boot
+        up when someone uses it after a long time. After the 'cold start', the
+        app will run normally.
+      </p>
+    </main>
+    <script>
+      const htmlTag = document.getElementsByTagName("html")[0];
+      const themeName = document.getElementById("themeName");
+
+      //if class of <html> is 'dark-theme', change to 'light-theme' and vice-versa
+      function switchName(className) {
+        if (className === "dark-theme") {
+          return "light-theme";
+        }
+        return "dark-theme";
+      }
+
+      function changeTheme() {
+        htmlTag.className = switchName(htmlTag.className);
+        themeName.innerText = switchName(htmlTag.className);
+      }
+    </script>
     <footer>
       Built by <a href="https://www.medium.com/@hussainarifkl">Hussain </a>
       <p>

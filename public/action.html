@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light-theme">
   <head>
     <title>Readability API</title>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
@@ -20,15 +20,14 @@
         grid-template-columns: 2fr 1fr;
       }
       #replace {
-        margin: 0 2% 0 2%;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
       }
       #replace > h1 {
         text-align: center;
       }
       @media only screen and (max-width: 640px) {
-        #replace {
-          margin: 0 0 0 0;
-        }
         form {
           display: flex;
           flex-direction: column;
@@ -38,6 +37,9 @@
   </head>
   <body>
     <main>
+      <button class="zi-btn mini warning" onclick="changeTheme()">
+        Switch to:<span id="themeName">dark-theme</span>
+      </button>
       <form id="form">
         <input
           class="zi-input big success"
@@ -61,24 +63,40 @@
       const form = document.getElementById("form");
       const url = document.getElementById("url");
       const replace = document.getElementById("replace");
+      const htmlTag = document.getElementsByTagName("html")[0];
+      const themeName = document.getElementById("themeName");
 
+      //if class of <html> is 'dark-theme', change to 'light-theme' and vice-versa
+      function switchName(className) {
+        if (className === "dark-theme") {
+          return "light-theme";
+        }
+        return "dark-theme";
+      }
+
+      function changeTheme() {
+        htmlTag.className = switchName(htmlTag.className);
+        themeName.innerText = switchName(htmlTag.className);
+      }
+
+      //first send a request:
       async function sendRequest(url) {
-        replace.innerText = "loading..";
         const response = await fetch(
           `/.netlify/functions/main?a=${encodeURIComponent(url)}`
         );
         let html = await response.json();
+        //if HTML data from server has been received:
         if (html.html && html.title) {
-          replace.innerHTML = `<h1>${html.title} </h1> ${html.html}`;
-        } else {
-          replace.innerHTML =
-            "<p class='zi-note error'><span class='zi-note-type'>ERROR:</span>Site cannot be read</p>";
-        }
+          return `<h1>${html.title} </h1> ${html.html}`;
+        } //otherwise return an error;
+        return "<p class='zi-note error'><span class='zi-note-type'>ERROR:</span>Site cannot be read</p>";
       }
-
+      //when user submits..
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        await sendRequest(url.value);
+        replace.innerText = "loading..";
+        const data = await sendRequest(url.value);
+        replace.innerHTML = data;
       });
     </script>
   </body>
