@@ -13,7 +13,11 @@ async function parseURL(site) {
 
     let reader = new Readability(doc.window.document);
     let article = reader.parse();
-    const markup = DOMPurify.sanitize(article.content);
+    let markup = DOMPurify.sanitize(article.content);
+    let url = new URL(site);
+    url = url.protocol + "//" + url.hostname;
+    markup = markup.replace(/"\//g, '"' + url + "/");
+
     return {
       title: article.title,
       html: markup,
