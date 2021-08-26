@@ -16,6 +16,7 @@ async function parseURL(site) {
     let markup = DOMPurify.sanitize(article.content);
     let url = new URL(site);
     url = url.protocol + "//" + url.hostname;
+    //replace relative URLs with absolute URLs
     markup = markup.replace(/"\//g, '"' + url + "/");
 
     return {
