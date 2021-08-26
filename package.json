@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@mozilla/readability": "^0.4.1",
+    "cheerio": "^1.0.0-rc.10",
     "dompurify": "^2.3.0",
     "got": "^11.8.2",
     "jsdom": "^16.6.0"

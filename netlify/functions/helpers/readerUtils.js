@@ -18,7 +18,6 @@ async function parseURL(site) {
     url = url.protocol + "//" + url.hostname;
     //replace relative URLs with absolute URLs
     markup = markup.replace(/"\//g, '"' + url + "/");
-
     return {
       title: article.title,
       html: markup,

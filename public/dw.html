@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="light-theme">
+  <head>
+    <title>Readability API</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="utf-8" http-equiv="encoding" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Reader mode for your website. Remove clutter and trackers from the desired article"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@geist-ui/style@latest/dist/style.css"
+    />
+    <link rel="icon" href="./images/maskable_icon_x128.png" />
+    <style>
+      form {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+      }
+      #replace {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+      }
+      #replace > h1 {
+        text-align: center;
+      }
+      img {
+        margin: auto;
+        display: block;
+        height: auto;
+      }
+      @media only screen and (max-width: 640px) {
+        form {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+      <button class="zi-btn mini warning"onclick="changeTheme()"> Change theme</button>
+    <main>
+    
+        <a
+          href="https://github.com/HussainArif12/serverless-tutorial/blob/main/public/action.html"
+          >Source code of this app is here.</a
+        >
+    <div id="replace">
+    </div>
+    <script>
+      const replace = document.getElementById("replace");
+      const htmlTag = document.getElementsByTagName("html")[0];
+
+      //if class of <html> is 'dark-theme', change to 'light-theme' and vice-versa
+      function switchName(className) {
+        if (className === "dark-theme") {
+          return "light-theme";
+        }
+        return "dark-theme";
+      }
+
+      function changeTheme() {
+        htmlTag.classList.toggle("dark-theme");
+      }
+
+      //first send a request:
+      async function sendRequest() {
+        const response = await fetch(
+          `/.netlify/functions/latestGerman`
+        );
+        let html = await response.json();
+        //if HTML data from server has been received:
+        if (html.html && html.title) {
+          return `<h1>${html.title} </h1> ${html.html}`;
+        } //otherwise return an error;
+        return "<p class='zi-note error'><span class='zi-note-type'>ERROR:</span>Site cannot be read</p>";
+      }
+      //when user submits..
+      document.addEventListener('DOMContentLoaded', async () => {
+        replace.innerText = "loading..";
+        const data = await sendRequest();
+        replace.innerHTML = data;
+        })
+      
+      
+    </script>
+  </body>
+</html>
