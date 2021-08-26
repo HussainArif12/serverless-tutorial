@@ -5,7 +5,7 @@ const id = "307440513290600519"; //id of the note
 const endpoint = "https://graphql.us.fauna.com/graphql";
 const graphQLClient = new GraphQLClient(endpoint, {
   headers: {
-    authorization: "Bearer " + process.env.FAUNA_SECRET,
+    authorization: `Bearer ${process.env.FAUNA_SECRET}`,
   },
 });
 
