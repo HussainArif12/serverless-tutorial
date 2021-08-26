@@ -3,7 +3,7 @@ const got = require("got");
 const parseURL = require("./readerUtils");
 
 const DWLink = "https://www.dw.com/de/";
-async function getURL() {
+async function getLatestGermanArticle() {
   const response = await got(DWLink);
   const $ = cheerio.load(response.body);
   const listItems = $(".imgTeaserXL");
@@ -12,9 +12,10 @@ async function getURL() {
   );
 }
 
-async function getLatestGermanArticle() {
-  const url = await getURL();
+async function declutterArticle() {
+  const url = await getLatestGermanArticle();
   const data = await parseURL(url);
+
   return data;
 }
-module.exports = getLatestGermanArticle;
+module.exports = declutterArticle;

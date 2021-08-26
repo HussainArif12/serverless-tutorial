@@ -15,6 +15,10 @@
     />
     <link rel="icon" href="./images/maskable_icon_x128.png" />
     <style>
+      form {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+      }
       #replace {
         margin-left: auto;
         margin-right: auto;
@@ -37,17 +41,15 @@
     </style>
   </head>
   <body>
-    <button class="zi-btn mini warning" onclick="changeTheme()">
-      Change theme
-    </button>
+      <button class="zi-btn mini warning"onclick="changeTheme()"> Change theme</button>
     <main>
-      <a
-        href="https://github.com/HussainArif12/serverless-tutorial/blob/main/public/action.html"
-        >Source code of this app is here.</a
-      >
-      <a href="dwLatest.html"> Latest</a>
-      <div id="replace"></div>
-    </main>
+    
+        <a
+          href="https://github.com/HussainArif12/serverless-tutorial/blob/main/public/action.html"
+          >Source code of this app is here.</a
+        >
+    <div id="replace">
+    </div>
     <script>
       const replace = document.getElementById("replace");
       const htmlTag = document.getElementsByTagName("html")[0];
@@ -66,21 +68,25 @@
 
       //first send a request:
       async function sendRequest() {
-        const response = await fetch(`/.netlify/functions/readFromFauna`);
+        const response = await fetch(
+          `/.netlify/functions/latestGerman`
+        );
         let html = await response.json();
-        console.log(html);
+        console.log(html)
         //if HTML data from server has been received:
-        if (html.title && html.body) {
-          return `<h1>${html.title} </h1> ${html.body}`;
+        if (html.title && html.html) {
+          return `<h1>${html.title} </h1> ${html.html}`;
         } //otherwise return an error;
         return "<p class='zi-note error'><span class='zi-note-type'>ERROR:</span>Site cannot be read</p>";
       }
       //when user submits..
-      document.addEventListener("DOMContentLoaded", async () => {
+      document.addEventListener('DOMContentLoaded', async () => {
         replace.innerText = "loading..";
         const data = await sendRequest();
         replace.innerHTML = data;
-      });
+        })
+      
+      
     </script>
   </body>
 </html>
