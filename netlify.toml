@@ -4,10 +4,6 @@
   functions = "netlify/functions"
   publish = "public"
 
-[context.production]
-  environment = {FAUNA_SECRET='fnAERiUZVVAAQl8z3wlhag3ueCWXSwKsP50NI3EJ' }
-[build.environment]
-  environment = {FAUNA_SECRET='fnAERiUZVVAAQl8z3wlhag3ueCWXSwKsP50NI3EJ' }
   ## Uncomment to use this redirect for Single Page Applications like create-react-app.
   ## Not needed for static site generators.
   #[[redirects]]
