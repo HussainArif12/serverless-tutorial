@@ -30,7 +30,8 @@ const readQuery = gql`
 async function save() {
   const { title, html: body } = await declutterArticle();
   const data = await graphQLClient.request(updateQuery, { title, body });
-  return data;
+  if (data) return { message: "OK" };
+  else return { message: "Failed" };
 }
 
 async function read() {
