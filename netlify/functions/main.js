@@ -1,7 +1,7 @@
-const parseURL = require("./helpers/readerUtils");
-exports.handler = async function (event, context) {
+import parseUrl from "./helpers/readerUtils";
+export const handler = async function (event, context) {
   const article = event.queryStringParameters.a;
-  const data = await parseURL(article);
+  const data = await parseUrl(article);
   return {
     statusCode: 200,
     headers: {

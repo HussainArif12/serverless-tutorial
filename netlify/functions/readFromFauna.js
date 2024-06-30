@@ -1,6 +1,6 @@
-const { read } = require("./helpers/dbUtils");
+import { read } from "./helpers/dbUtils";
 
-exports.handler = async function (event, context) {
+export const handler = async function (event, context) {
   const data = await read();
   console.log(data);
   return {

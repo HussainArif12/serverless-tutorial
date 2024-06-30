@@ -1,21 +1,21 @@
-const cheerio = require("cheerio");
-const got = require("got");
-const parseURL = require("./readerUtils");
+import cheerio from "cheerio";
+import got from "got";
+import parseURL from "./readerUtils";
 
 const DWLink = "https://www.dw.com/de/";
-async function getLatestGermanArticle() {
+
+export async function getLatestGermanArticle() {
   const response = await got(DWLink);
   const $ = cheerio.load(response.body);
-  const listItems = $(".imgTeaserXL");
-  return (
-    "https://www.dw.com" + listItems.children("div").children("a").attr("href")
-  );
+  const listItems = $(".ts-hero");
+
+  return "https://www.dw.com" + listItems.attr("href");
 }
 
-async function declutterArticle() {
+export async function declutterArticle() {
   const url = await getLatestGermanArticle();
   const data = await parseURL(url);
 
   return data;
 }
-module.exports = declutterArticle;
+//module.exports = declutterArticle;

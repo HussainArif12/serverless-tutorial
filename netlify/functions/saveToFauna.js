@@ -1,6 +1,6 @@
 const { save } = require("./helpers/dbUtils");
 
-exports.handler = async function (event, context) {
+export const handler = async function (event, context) {
   const response = await save();
   console.log(response);
   return {

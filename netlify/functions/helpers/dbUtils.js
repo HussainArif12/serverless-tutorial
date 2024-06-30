@@ -1,5 +1,5 @@
-const { GraphQLClient, gql } = require("graphql-request");
-const declutterArticle = require("./getLatestDW");
+import { GraphQLClient, gql } from "graphql-request";
+import { declutterArticle } from "./getLatestDW";
 
 const id = "307440513290600519"; //id of the note
 const endpoint = "https://graphql.us.fauna.com/graphql";
@@ -27,16 +27,16 @@ const readQuery = gql`
   }
 `;
 
-async function save() {
+export async function save() {
   const { title, html: body } = await declutterArticle();
   const data = await graphQLClient.request(updateQuery, { title, body });
   if (data) return { message: "OK" };
   else return { message: "Failed" };
 }
 
-async function read() {
+export async function read() {
   const data = await graphQLClient.request(readQuery);
   return data;
 }
 
-module.exports = { save, read };
+//module.exports = { save, read };
