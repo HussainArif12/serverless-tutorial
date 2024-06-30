@@ -1,6 +1,10 @@
-const getLatestGermanArticle = require("./helpers/getLatestDW");
-exports.handler = async function () {
-  const data = await getLatestGermanArticle();
+import {
+  getLatestGermanArticle,
+  declutterArticle,
+} from "./helpers/getLatestDW";
+
+export const handler = async function () {
+  const data = await declutterArticle(getLatestGermanArticle());
   return {
     statusCode: 200,
     headers: {
