@@ -89,7 +89,7 @@
       }
       function changeSize(size) {
         const currentFontSize = parseInt(replace.style.fontSize);
-        if (currentFontSize > 0.5 && size < 0) {
+        if (currentFontSize == 1 && size < 0) {
           return;
         }
         const newFontSize = currentFontSize + size;
