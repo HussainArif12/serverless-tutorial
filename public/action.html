@@ -74,6 +74,7 @@
       const htmlTag = document.getElementsByTagName("html")[0];
       const themeName = document.getElementById("themeName");
 
+      replace.style.fontSize = "1rem";
       //if class of <html> is 'dark-theme', change to 'light-theme' and vice-versa
       function switchName(className) {
         if (className === "dark-theme") {
@@ -87,7 +88,9 @@
         themeName.innerText = switchName(htmlTag.className);
       }
       function changeSize(size) {
-        replace.style.fontSize += size;
+        const currentFontSize = parseInt(replace.style.fontSize);
+        const newFontSize = currentFontSize + size;
+        replace.style.fontSize = newFontSize + "rem";
       }
       //first send a request:
       async function sendRequest(url) {
