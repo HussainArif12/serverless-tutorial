@@ -46,7 +46,7 @@
         Switch to:<span id="themeName">dark-theme</span>
       </button>
       <button class="zi-btn mini" onclick="changeSize(1)">+</button>
-      <button class="zi-btn mini" onclick="changeSize(1)">-</button>
+      <button class="zi-btn mini" onclick="changeSize(-1)">-</button>
       <form id="form" autocomplete="off">
         <input
           class="zi-input big success"
@@ -89,6 +89,9 @@
       }
       function changeSize(size) {
         const currentFontSize = parseInt(replace.style.fontSize);
+        if (currentFontSize > 0.5 && size < 0) {
+          return;
+        }
         const newFontSize = currentFontSize + size;
         replace.style.fontSize = newFontSize + "rem";
         console.log(replace.style.fontSize);
